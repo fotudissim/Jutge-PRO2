@@ -1,9 +1,27 @@
+
 #include "Estudiant.hh"
-//#include ""
 #include <vector>
 #include <iostream>
 
 using namespace std;
+
+bool millor (Estudiant a, Estudiant b) {
+	
+	double x = a.consultar_nota();
+	double y = b.consultar_nota();
+	
+	return ( (x > y) or ( (x == y) and (a.consultar_DNI() < b.consultar_DNI()) ) );
+	
+}
+
+bool pitjor (Estudiant a, Estudiant b) {
+	
+	double x = a.consultar_nota();
+	double y = b.consultar_nota();
+	
+	return ( (x < y) or ( (x == y) and (a.consultar_DNI() < b.consultar_DNI()) ) );
+	
+}
 
 pair<int,int>  max_min_vest(const vector<Estudiant>& v) {
  /* Pre: v no conte repeticions de dni  */
@@ -12,60 +30,20 @@ pair<int,int>  max_min_vest(const vector<Estudiant>& v) {
     component es la posicio de l'estudiant de nota minima de v (si hi ha
     empats, s'obte en cada cas la posicio de l'estudiant amb minim DNI); si no
     hi ha cap estudiant amb nota, totes dues components valen -1 */
-	
-	pair<int,int> posv;
-	double max = v[0].consultar_nota();
-	double min = v[0].consultar_nota();
-	int max_id = v[0].consultar_DNI();
-	int min_id = v[0].consultar_DNI();
-	int max_pos = 0;
-	int min_pos = 0;
-	int dcount = 0;
-	
-	for (int i = 0; i < v.size(); ++i) {
+    
+    pair<int,int> p(-1,-1);
+    
+    int n = v.size();
+    
+    for (int i = 0; i < n; ++i) {
 		
 		if (v[i].te_nota()) {
-			
-			if (v[i].consultar_nota() > max) {
-				max = v[i].consultar_nota();
-				max_id = v[i].consultar_DNI();
-				max_pos = i;
-			}
-			if (v[i].consultar_nota() < min) {
-				 min = v[i].consultar_nota();
-				 min_id = v[i].consultar_DNI();
-				 min_pos = i;
-			}
-			
-			else {
-				if ( v[i].consultar_nota() == max) {
-					if (v[i].consultar_DNI() < max_id) {
-						max_id = v[i].consultar_DNI();
-						max_pos = i;
-					}
-				}
-				else if (v[i].consultar_nota() == min) {
-					if (v[i].consultar_DNI() < min_id) {
-						min_id = v[i].consultar_DNI();
-						min_pos = i;
-					}
-				}
-			}
+			if (p.first == -1) p.first = p.second = i;
+			else if ( millor(v[i],v[p.first]) ) p.first = i;
+			else if ( pitjor(v[i],v[p.second]) ) p.second = i;
 		}
-		else if (not v[i].te_nota()) dcount ++;
 	}
-	
-	if (dcount == v.size()) {
-		posv.first = -1;
-		posv.second = -1;
-		return posv;
-	}
-	
-	posv.first = max_pos + 1;
-	posv.second = min_pos + 1;
-	
-	return posv;
-	
+	return p;
     
 }
 
