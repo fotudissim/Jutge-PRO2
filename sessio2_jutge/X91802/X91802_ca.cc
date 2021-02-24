@@ -20,7 +20,7 @@ pair<int,int>  max_min_vest(const vector<Estudiant>& v) {
 	int min_id = v[0].consultar_DNI();
 	int max_pos = 0;
 	int min_pos = 0;
-	double mu = -1;
+	int dcount = 0;
 	
 	for (int i = 0; i < v.size(); ++i) {
 		
@@ -52,7 +52,13 @@ pair<int,int>  max_min_vest(const vector<Estudiant>& v) {
 				}
 			}
 		}
-		else if (not v[i].te_nota()) v[i].afegir_nota(mu);	
+		else if (not v[i].te_nota()) dcount ++;
+	}
+	
+	if (dcount == v.size()) {
+		posv.first = -1;
+		posv.second = -1;
+		return posv;
 	}
 	
 	posv.first = max_pos + 1;
