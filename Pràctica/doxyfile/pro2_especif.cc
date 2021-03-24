@@ -24,5 +24,30 @@ de proyecto completamente documentado, incluyendo los elementos privados.
 */
 int main ()
 {
+    Cubeta c;
+    Lavadora lav;
+    //bool col;
+    int op;
+    cin >> op;
+    int pes;
+    bool color;
+    
+    while (op != -8) {
+        if (op == -1) {
+
+            cin >> pes;
+            color = readbool();
+            lav.inicializar(pes, color); //el pes que passem com a paràmetre aquí, és el pes màxim d'una rentadora
+        }
+        else if (op == -2) {
+            cin >> pes;
+            color = readbool();
+            Prenda p (pes, color);
+            lav.anadir_prenda(p);
+        }
+        else if (op == -3) {
+            
+        }
+//         
 
 }
